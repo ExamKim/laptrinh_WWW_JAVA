@@ -1,0 +1,324 @@
+/* ================================
+   RESET
+================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* ================================
+   COMMON
+================================ */
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ================================
+   LOGIN PAGE
+================================ */
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    margin: 100px auto;
+}
+
+.login-card h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 28px;
+    color: #222;
+}
+
+.hint {
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.hint strong {
+    color: #333;
+}
+
+.error {
+    color: #dc3545;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* ================================
+   FORM
+================================ */
+form {
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #444;
+}
+
+input[type="text"],
+input[type="password"],
+input:not([type]) {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border: 1px solid #d5d9df;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+    background: #fff;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input:not([type]):focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+/* ================================
+   BUTTON
+================================ */
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 11px 18px;
+    background: #4f46e5;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #4338ca;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Login button */
+.login-card button {
+    width: 100%;
+    padding: 13px;
+    font-size: 15px;
+    margin-top: 3px;
+}
+
+/* ================================
+   PRODUCTS PAGE
+================================ */
+.page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.page > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.page > header h1 {
+    font-size: 30px;
+    color: #222;
+    margin-bottom: 6px;
+}
+
+.page > header p {
+    color: #666;
+    font-size: 15px;
+}
+
+.page > header strong {
+    color: #4f46e5;
+}
+
+/* ================================
+   SECONDARY BUTTON
+================================ */
+button.secondary {
+    background: #6c757d;
+}
+
+button.secondary:hover {
+    background: #545b62;
+}
+
+/* ================================
+   PRODUCT SECTION
+================================ */
+.page section.card {
+    margin-bottom: 25px;
+}
+
+.page section.card h2 {
+    font-size: 21px;
+    margin-bottom: 18px;
+    color: #222;
+}
+
+/* ================================
+   TABLE
+================================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+thead {
+    background: #f1f3f5;
+}
+
+th {
+    padding: 14px 16px;
+    text-align: left;
+    font-size: 14px;
+    color: #555;
+    font-weight: 700;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+td {
+    padding: 15px 16px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+tbody tr {
+    transition: 0.2s;
+}
+
+tbody tr:hover {
+    background: #f8f9ff;
+}
+
+td form {
+    display: flex;
+    justify-content: flex-end;
+}
+
+td button {
+    white-space: nowrap;
+}
+
+/* ================================
+   SHOPPING CART
+================================ */
+ul {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+ul li {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    border-radius: 7px;
+    border-left: 4px solid #4f46e5;
+    color: #444;
+}
+
+.page section.card > p {
+    margin-top: 10px;
+    color: #555;
+}
+
+.page section.card > p strong {
+    color: #222;
+}
+
+/* ================================
+   TECHNICAL INFO
+================================ */
+.technical {
+    margin-top: 20px !important;
+    padding: 10px 12px;
+    background: #f1f3f5;
+    border-radius: 6px;
+    color: #777 !important;
+    font-size: 12px;
+    font-family: monospace;
+}
+
+/* ================================
+   EMPTY CART
+================================ */
+.page section.card p:not(.technical) {
+    line-height: 1.6;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+@media (max-width: 700px) {
+
+    .page {
+        margin: 20px auto;
+        padding: 0 12px;
+    }
+
+    .page > header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page > header form {
+        width: 100%;
+    }
+
+    .page > header button {
+        width: 100%;
+    }
+
+    .page > header h1 {
+        font-size: 25px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .login-card {
+        margin: 40px 15px;
+        width: auto;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th,
+    td {
+        padding: 12px;
+    }
+}
