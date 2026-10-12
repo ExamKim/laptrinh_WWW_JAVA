@@ -1,5 +1,6 @@
 package fit.vn.midterm1.controller;
 
+import fit.vn.midterm1.dto.CartDetailDTO;
 import fit.vn.midterm1.entity.Cart;
 import fit.vn.midterm1.entity.Product;
 import fit.vn.midterm1.service.CartService;
@@ -69,5 +70,12 @@ public class CartController {
             return Response.ok("{\"message\":\" Xoa thanh cong\"}").build();
         }
         return Response.status(Response.Status.NOT_FOUND).entity("{\"message\":\"Khong tim thay gio hang can xoa\"}").build();
+    }
+
+    @GET
+    @Path("/details")
+    public Response getCartDetail(){
+        List<CartDetailDTO> c= cartService.getCartDetail();
+        return Response.ok(c).build();
     }
 }

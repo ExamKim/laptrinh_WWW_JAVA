@@ -1,5 +1,6 @@
 package fit.vn.midterm1.repository.impl;
 
+import fit.vn.midterm1.dto.CartDetailDTO;
 import fit.vn.midterm1.entity.Cart;
 import fit.vn.midterm1.entity.Product;
 import fit.vn.midterm1.repository.CartRepository;
@@ -103,5 +104,30 @@ public class CartRepositoryImpl implements CartRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<CartDetailDTO> cartDetail() {
+        List<CartDetailDTO> list = new ArrayList<>();
+        String sql = "SELECT c.id, c.product_id, c.customer_name, c.quantity, c.created_at, " +
+                "p.id, p.price, p.name FROM shoppingcart c INNER JOIN product p ON c.product_id=p.id";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                CartDetailDTO c = new CartDetailDTO(
+                        rs.getInt("id"),
+                        rs.getString("customer_name"),
+                        rs.getInt("quantity"),
+                        rs.getTimestamp("created_at"),
+                        rs.getString("name"),
+                        rs.getDouble("price")
+                );
+                list.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
