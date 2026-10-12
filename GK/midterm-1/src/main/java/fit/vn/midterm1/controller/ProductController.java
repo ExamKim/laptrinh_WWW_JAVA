@@ -30,9 +30,38 @@ public class ProductController {
     public Response getById(@PathParam("id") int id){
         Product p= productService.getProductById(id);
         if (p==null){
-            return Response.ok(Response.Status.NOT_FOUND).entity("{\"message\":\"ko thay san pham\"}").build();
+            return Response.status(Response.Status.NOT_FOUND).entity("{\"message\":\"ko thay san pham\"}").build();
         }
         return Response.ok(p).build();
+    }
+
+    @POST
+    public Response create(Product p){
+        boolean success= productService.createProduct(p);
+        if (success){
+            return Response.status(Response.Status.CREATED).entity("{\"message\":\"Tao sp thanh cong\"}").build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).entity("{\"message\":\"Tao sp that bai\"}").build();
+    }
+
+    @PUT
+    @Path("/{id}")
+    public Response update(@PathParam("id") int id, Product p){
+        boolean success= productService.updateProduct(p);
+        if (success){
+            return Response.ok("{\"message\":\" Cap nhat thanh cong\"}").build();
+        }
+        return Response.status(Response.Status.NOT_MODIFIED).entity("{\"message\":\"Cap nhat that bai\"}").build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response delete(@PathParam("id") int id){
+        boolean success= productService.deleteProduct(id);
+        if (success){
+            return Response.ok("{\"message\":\" Xoa thanh cong\"}").build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).entity("{\"message\":\"Khong tim thay san pham can xoa\"}").build();
     }
 
 }

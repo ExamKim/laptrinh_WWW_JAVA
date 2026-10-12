@@ -3,8 +3,6 @@ package fit.vn.midterm1.service;
 import fit.vn.midterm1.entity.Product;
 import fit.vn.midterm1.repository.ProductRepository;
 import fit.vn.midterm1.repository.impl.ProductRepositoryImpl;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 
 import java.util.List;
 

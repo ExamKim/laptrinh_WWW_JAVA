@@ -1,5 +1,6 @@
 package fit.vn.midterm1.entity;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Cart {
@@ -7,12 +8,12 @@ public class Cart {
     private int product_id;
     private String customer_name;
     private int quantity;
-    private LocalDateTime created_at;
+    private Timestamp created_at;
 
     public Cart() {
     }
 
-    public Cart(int id, int product_id, String customer_name, int quantity, LocalDateTime created_at) {
+    public Cart(int id, int product_id, String customer_name, int quantity, Timestamp created_at) {
         this.id = id;
         this.product_id = product_id;
         this.customer_name = customer_name;
@@ -52,11 +53,11 @@ public class Cart {
         this.quantity = quantity;
     }
 
-    public LocalDateTime getCreated_at() {
+    public Timestamp getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
 }

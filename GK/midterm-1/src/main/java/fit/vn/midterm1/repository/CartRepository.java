@@ -9,7 +9,7 @@ public interface CartRepository {
         List<Cart> findAll();
         Cart findById(int id);
         boolean delete(int id);
-        boolean update(int id);
-        boolean save(int id);
+        boolean update(Cart c);
+        boolean save(Cart c);
 
 }
