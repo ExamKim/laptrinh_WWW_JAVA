@@ -1,13 +1,15 @@
-
 package com.example.eshopapi.service;
 
+import com.example.eshopapi.dto.CategoryRequest;
+import com.example.eshopapi.dto.CategoryResponse;
+import com.example.eshopapi.dto.CategoryStatsResponse;
+import com.example.eshopapi.dto.ProductResponse;
 import com.example.eshopapi.entity.Category;
 import com.example.eshopapi.entity.Product;
-import com.example.eshopapi.repository.CategoryRepository;
-import com.example.eshopapi.repository.ProductRepository;
 import com.example.eshopapi.exception.ConflictException;
 import com.example.eshopapi.exception.NotFoundException;
-
+import com.example.eshopapi.repository.CategoryRepository;
+import com.example.eshopapi.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,67 +23,100 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
-    // C1: Lấy tất cả danh mục, sắp xếp theo tên
     @Transactional(readOnly = true)
-    public List<Category> getAll() {
-        return categoryRepository.findAllByOrderByNameAsc();
+    public List<CategoryResponse> findAll() {
+        return categoryRepository.findAllByOrderByNameAsc()
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
-    // C2: Lấy danh mục theo ID
     @Transactional(readOnly = true)
-    public Category getById(Long id) {
-        return categoryRepository.findById(id)
-                .orElseThrow(() ->
-                        new NotFoundException(
-                                "Không tìm thấy danh mục id = " + id));
+    public CategoryResponse findById(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy danh mục id = " + id));
+        return toResponse(category);
     }
 
-    // C3: Thêm danh mục
     @Transactional
-    public Category create(Category category) {
-        if (categoryRepository.existsByNameIgnoreCase(
-                category.getName())) {
-            throw new ConflictException(
-                    "Tên danh mục đã tồn tại");
+    public CategoryResponse create(CategoryRequest request) {
+        if (categoryRepository.existsByNameIgnoreCase(request.name())) {
+            throw new ConflictException("Tên danh mục đã tồn tại");
         }
 
-        return categoryRepository.save(category);
+        Category category = Category.builder()
+                .name(request.name())
+                .description(request.description())
+                .build();
+
+        Category saved = categoryRepository.save(category);
+        return toResponse(saved);
     }
 
-    // C4: Cập nhật danh mục
     @Transactional
-    public Category update(Long id, Category request) {
-        Category category = getById(id);
+    public CategoryResponse update(Long id, CategoryRequest request) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy danh mục id = " + id));
 
-        if (categoryRepository.existsByNameIgnoreCaseAndIdNot(
-                request.getName(), id)) {
-            throw new ConflictException(
-                    "Tên danh mục đã tồn tại");
+        if (categoryRepository.existsByNameIgnoreCaseAndIdNot(request.name(), id)) {
+            throw new ConflictException("Tên danh mục đã tồn tại");
         }
 
-        category.setName(request.getName());
-        category.setDescription(request.getDescription());
+        category.setName(request.name());
+        category.setDescription(request.description());
 
-        return categoryRepository.save(category);
+        Category updated = categoryRepository.save(category);
+        return toResponse(updated);
     }
 
-    // C5: Xóa danh mục
     @Transactional
     public void delete(Long id) {
-        Category category = getById(id);
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Không tìm thấy danh mục id = " + id));
 
         if (productRepository.existsByCategoryId(id)) {
-            throw new ConflictException(
-                    "Không thể xóa danh mục đang có sản phẩm");
+            throw new ConflictException("Không thể xóa danh mục đang có sản phẩm");
         }
 
         categoryRepository.delete(category);
     }
 
-    // C6: Lấy các sản phẩm thuộc danh mục
     @Transactional(readOnly = true)
-    public List<Product> getProducts(Long id) {
-        getById(id);
-        return productRepository.findByCategoryId(id);
+    public List<ProductResponse> findProducts(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new NotFoundException("Không tìm thấy danh mục id = " + id);
+        }
+
+        List<Product> products = productRepository.findByCategoryId(id);
+        return products.stream()
+                .map(this::toProductResponse)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryStatsResponse> getCategoryStats() {
+        return categoryRepository.getCategoryStats();
+    }
+
+    private CategoryResponse toResponse(Category category) {
+        return new CategoryResponse(
+                category.getId(),
+                category.getName(),
+                category.getDescription()
+        );
+    }
+
+    private ProductResponse toProductResponse(Product product) {
+        return new ProductResponse(
+                product.getId(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getQuantity(),
+                product.getImageUrl(),
+                product.getCategory() != null ? product.getCategory().getId() : null,
+                product.getCategory() != null ? product.getCategory().getName() : null,
+                product.getCreatedAt()
+        );
     }
 }

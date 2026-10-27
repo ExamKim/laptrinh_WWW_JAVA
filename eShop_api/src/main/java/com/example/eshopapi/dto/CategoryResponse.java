@@ -1,7 +1,7 @@
 package com.example.eshopapi.dto;
 
 public record CategoryResponse(
-        int id,
+        Long id,
         String name,
         String description
 ) {}
